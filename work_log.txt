@@ -1,0 +1,70 @@
+US pollution data
+
+Clean-up and recoding:
+1) Unit information may be considered redundant.
+   [NO2 Units]: Parts per billion
+   [O3 Units]: Parts per million
+   [SO2 Units]: Parts per billion
+   [CO Units] : Parts per million
+    
+   Convert everything to parts per million
+   O3 results = O3 results*100
+   C0 results = CO results*100
+   
+   Units of all pollutants are the same. 
+   Keep only one one column for the unit.
+   
+   unit's column name = 'Units', value: 'ppb' (parts per billion)
+   
+
+   
+==> NEED TO CHECK: What is the unit of AQI? Possibly unitless. <==
+
+
+   
+2) add a sequence ID to the data (e.g. 1st record ID = 0, 2nd record ID = 1, so on)
+   Column name for seq ID = 'ID' 
+   (might come handy for merging data files)
+   
+3) Convert 'Date Local' string to int(year), int(month), int(day)
+   (this may be useful for breaking the data by date)
+   Column name: 'Year', 'Month' and 'Day'
+   ==> currently using Python datetime module
+   ==> takes long as it loops throug all records
+   ==> TO DO: need to to find a more efficient method
+   
+4) break data into two separate dataframes.
+   
+   > One with descriptive quantities
+   > One with numeric quantities 
+   
+   > descriptive data
+   number of rows: 1746661
+   number of cols: 9
+   column names:
+    	'ID','Date Local','Site Num'
+    	'State','State Code'
+    	'County','County Code',
+    	'City','Address'
+   
+   > numeric data
+   number of rows: 1746661
+   number of cols: 21
+   column names:
+   		'ID','Year','Month', 'Day', 'Units',\
+   		'NO2 Mean', 'NO2 1st Max Value', 'NO2 1st Max Hour', 'NO2 AQI',
+   		'O3 Mean', 'O3 1st Max Value', 'O3 1st Max Hour', 'O3 AQI',
+   		'SO2 Mean', 'SO2 1st Max Value', 'SO2 1st Max Hour', 'SO2 AQI',
+   		'CO Mean',  'CO 1st Max Value',  'CO 1st Max Hour',  'CO AQI' 
+   
+
+
+==> TO DO: Rm any row that has NA or NaN <==
+==> TO DO: Rm exact duplicates <==
+
+
+5) (assuming there are no duplicates or missing values)
+==> TO DO: histogram of 4 pollutants avg value
+==> TO DO: histogram of 4 pollutants max value
+==> TO DO: compute probability mass function for each year with the average
+
